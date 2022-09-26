@@ -1,5 +1,4 @@
 ﻿// See https://aka.ms/new-console-template for more information
-
 //read file
 string filePath = "results.txt";
 
@@ -10,9 +9,9 @@ try
 
     //calculate total
     int totalPoints = 0, points = 0, result = 0;
-    for (int i = 0; i < fileCotents.Length; i++)
+    foreach (string line in fileCotents)    
     {
-        result =Convert.ToInt32(fileCotents[i]);
+        result = Convert.ToInt32(line);
 
         if (result >= 90)
             points = 100;
@@ -35,11 +34,11 @@ try
     }
 
     //append file
-    File.AppendAllText(filePath,Environment.NewLine + "Total Points: " + totalPoints.ToString());
+    File.AppendAllText(filePath, Environment.NewLine + "Total Points: " + totalPoints.ToString());
 
 }
 
-catch(IOException io)
+catch (IOException io)
 {
     Console.WriteLine(io.Message);
 }
