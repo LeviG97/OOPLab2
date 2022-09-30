@@ -1,50 +1,72 @@
 ﻿// See https://aka.ms/new-console-template for more information
 //Get student info
-Console.Write("Enter your name >> ");
-string name = Console.ReadLine();
 
-Console.Write("Enter your name >> ");
-string studentNumber = Console.ReadLine();
+    Console.Write("Enter your name >> ");
+    string name = Console.ReadLine();
 
-//Get subject info
-string[] subjects = new string[7];
-string[] levels = new string[7];
-string[] results = new string[7];
-int[] points = new int[7];
+    Console.Write("Enter your student number >> ");
+    string studentNumber = Console.ReadLine();
 
-for (int i = 0; i < 7; i++)
+    //Get subject info
+    string[] subjects = new string[7];
+    string[] levels = new string[7];
+    string[] results = new string[7];
+    int[] points = new int[7];
+
+    for (int i = 0; i < 7; i++)
+    {
+        Console.Write($"Enter subject name {i + 1} >>");
+        subjects[i] = Console.ReadLine();
+
+        Console.Write($"Enter subject level for  {subjects[i]} >> ");
+        levels[i] = Console.ReadLine();
+
+        Console.Write($"Enter subject result for {subjects[i]} >> ");
+        results[i] = Console.ReadLine();
+    }
+
+    //Get results
+    int totalPoints = CalculatePoints(results, levels, points);
+
+    //Display Results
+    DisplayResults(name, studentNumber, subjects, results, levels, points, totalPoints);
+
+    //Write to file
+    WriteDetailsToFile(name, studentNumber, subjects, results, levels, points, totalPoints);
+
+    Console.ReadLine();
+
+static void WriteDetailsToFile(string name, string studentNum, string[] subjects, string[] results, string[] levels, int[] points, int totalPoints)
 {
-    Console.Write($"Enter subject name >> {i+1}");
-    subjects[i] = Console.ReadLine();
+    StreamWriter sw = new StreamWriter("Results.txt");
 
-    Console.Write($"Enter subject level for  {subjects[i]} >> ");
-    levels[i] = Console.ReadLine();
 
-    Console.Write($"Enter subject result for {subjects[i]}");
-    results[i] = Console.ReadLine();
+    sw.WriteLine($"Name: {name}");
+    sw.WriteLine($"Student Number: {studentNum}");
+
+    for (int i = 0; i < results.Length; i++)
+    {
+        sw.WriteLine($"{subjects[i],10} {levels[i],10} {results[i],10} {points[i],10}");
+    }
+
+    sw.WriteLine($"Total Points : {totalPoints}");
+
+    sw.Flush();
+    sw.Close();
+
+    Console.WriteLine("Successfully written to file");
 }
-
-//Get results
-int totalPoints = CalculatePoints(results, levels, points);
-
-//Display Results
-DisplayResults(name, studentNumber, subjects, results, levels, points, totalPoints);
-
-//Write to file
-WriteDetailsToFile(name, studentNumber, subjects, results, levels, points, totalPoints);
-
-Console.ReadLine();
-
-
-statid void DisplayResults(string[] name, string[] studentNum, string[] subjects, string[] results, string[] levels, int[] points, int totalPoints)
+static void DisplayResults(string name, string studentNum, string[] subjects, string[] results, string[] levels, int[] points, int totalPoints)
 {
     Console.WriteLine($"Name: {name}");
     Console.WriteLine($"Student Number: {studentNum}");
 
     for (int i = 0; i < results.Length; i++)
     {
-        Console.WriteLine($"{subjects[i],10}");
-    } 
+        Console.WriteLine($"{subjects[i],15} {levels[i],10} {results[i], 10} {points[i], 10}");
+    }
+
+    Console.WriteLine($"Total Points : {totalPoints}");
 }
 
 static int CalculatePoints(string[] data, string[] levels, int[] studentPoints)
